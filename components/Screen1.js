@@ -21,8 +21,9 @@ export const Screen1 = ({ navigation, route }) => {
 
     }
     useEffect(() => {
-
-        setData(route.params === undefined ? [{ id: "123", price: "1000", discount: "20%", finalPrice: "200" }, { id: "113", price: "1000", discount: "20%", finalPrice: "200" }, { id: "23", price: "1000", discount: "20%", finalPrice: "200" }] : setParams)
+        setDisable(true)
+        
+        setData(route.params === undefined ? [] : setParams)
         console.log("price" + price)
         console.log("discount" + price)
 
@@ -59,6 +60,11 @@ export const Screen1 = ({ navigation, route }) => {
     const calDiscount = (text) => {
         setDiscount(text)
         if (text >= 0) {
+            if(text.length===1){
+            setSave((price * (text * 0.01)).toFixed(2))
+              setDisable(false)
+            }
+            else{
             if (text > 100) {
                 setScreen(1)
                 setErrMessage("Discount Cannot be greater than 100")
@@ -71,8 +77,11 @@ export const Screen1 = ({ navigation, route }) => {
                 setSave((price * (text * 0.01)).toFixed(2))
                 checkDisable(false)
             }
+            }
+            
         } else if (text.length === 0) {
             setDiscount("")
+            setDisable(true)
         }
         else {
             setErrMessage("Discount Cannot be Negative")
@@ -88,17 +97,18 @@ export const Screen1 = ({ navigation, route }) => {
         setData(DATA)
         setPrice("")
         setDiscount("")
+        setSave("")
+        setDisable(true)
     }
 
     const errorScreen = (
-        <View style={styles.outputContainer}>
-            <Text style={styles.outputText}>{errorMessage}</Text>
-        </View>
-    )
+        <View style={{height:100}}>
+            <Text style={{fontSize:20,color:"red"}}>{errorMessage}</Text>
+        </View>)
     const details = (
-        <View style={styles.outputContainer}>
+        <View style={{height:400}}>
             <Text style={styles.outputText}>You Save:{save}</Text>
-            <Text style={styles.outputText}>Final Price:{price.length === 0 ? "" : discount.length === 0 ? price : (price - discount).toFixed(2)}</Text>
+            <Text style={styles.outputText}>Final Price:{price.length === 0 ? "" : discount.length === 0 ? price : (price - save).toFixed(2)}</Text>
         </View>
     )
     return (
