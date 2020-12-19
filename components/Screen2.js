@@ -43,44 +43,14 @@ Alert.alert(
   );
 }
 
-    const renderItem = ({ item }) => {
-        const backgroundColor = item.id === selectedId ? "#4169e1" : "#afeeee";
-        
-        return (
-
-
-            <View>
-                <Item
-                item={item}
-                onPress={() => {
-                    setSelectedId(item.id)
-                    setDATA([{
-            id:"3113",
-            price:"3000",
-            discount:"30%",
-            finalPrice:"300"
-            },{
-            id:"3133",
-            price:"7000",
-            discount:"70%",
-            finalPrice:"700"
-            }])
-            delItems(item.id)
-                    }}
-                style={{ backgroundColor }}
-            />
-            <Text>Hello</Text>
-            </View>
-
-        );
-    };
+   
     const emptyScreen=(
         <View>
             <Text style={{fontSize:32,color:"lightgrey",textAlign:"center"}}>Please add items...!</Text>
         </View>
     );
     const listScreen=(
-        <View>
+        <View style={{justifyContent:"center",textAlign:"center"}}>
             
         
     <SafeAreaView style={styles.container}>
@@ -111,11 +81,13 @@ Alert.alert(
         )
     })}
     </ScrollView>
-    <MyButton
+        <TouchableOpacity
                 onPress={dellAll}
-                text="Clear All History"
-
-            />
+            >
+                <View style={{padding:10,backgroundColor:"black",textAlign:"center"}}>
+                    <Text style={{color:"white"}}>Clear All History</Text>
+                </View>
+        </TouchableOpacity>
     </SafeAreaView>
 
         
@@ -130,24 +102,24 @@ Alert.alert(
     console.log(DATA)
     return (
         <View style={styles.container}>
-        <Button
-                onPress={()=> navigation.navigate('Home',DATA)}
-                title="Go home"
-            />
+        
             <TouchableOpacity style={[styles.header, style]}>
         <Text style={styles.headerHeading}>Price</Text>
         <Text style={styles.headerHeading}>Discount</Text>
         <Text style={styles.headerHeading}>Final Price</Text>
     </TouchableOpacity>
             {DATA.length===0?emptyScreen:listScreen}
-            
+            <Button
+                onPress={()=> navigation.navigate('Home',DATA)}
+                title="Go home"
+            />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container:{
-        height:200
+        height:400
     },
     header: {
         width: 350,
